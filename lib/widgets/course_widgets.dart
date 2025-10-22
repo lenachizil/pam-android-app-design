@@ -246,7 +246,7 @@ class CourseInfoSection extends StatelessWidget {
           if (lectures != null) _buildInfoRow(Icons.book, 'Lectures', lectures!),
           if (learningTime != null) ...[
             SizedBox(height: 13),
-            _buildInfoRow(Icons.access_time, 'Learning Time', learningTime!),
+            _buildInfoRow(Icons.access_time_filled_rounded, 'Learning Time', learningTime!),
           ],
           if (certification != null) ...[
             SizedBox(height: 13),
