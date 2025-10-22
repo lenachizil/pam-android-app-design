@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import '../models/course_data.dart';
 import '../models/course.dart';
-import '../widgets/cards.dart';
-import '../widgets/common_widgets.dart';
+import '../widgets/course_card.dart';
+import '../widgets/horizontal_course_list.dart';
+import '../widgets/welcome_header.dart';
+import '../widgets/search_field.dart';
+import '../widgets/section_header.dart';
+import '../widgets/category_chip.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen();

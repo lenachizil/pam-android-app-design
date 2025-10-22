@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import '../models/course_data.dart';
 import '../models/course.dart';
-import '../widgets/course_widgets.dart';
-import '../widgets/common_widgets.dart';
+import '../widgets/course_header.dart';
+import '../widgets/course_title_section.dart';
+import '../widgets/expandable_description.dart';
+import '../widgets/course_info_section.dart';
+import '../widgets/skill_chip.dart';
 
 class CourseScreen extends StatelessWidget {
   const CourseScreen();
