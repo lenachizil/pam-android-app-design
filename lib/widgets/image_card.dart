@@ -17,18 +17,52 @@ class ImageCard extends StatelessWidget {
     this.overlayOpacity = 0.0,
   });
 
+  bool _isNetworkImage(String path) {
+    return path.startsWith('http://') || path.startsWith('https://');
+  }
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: borderRadius,
       child: Stack(
         children: [
-          Image.asset(
-            imagePath,
-            width: width ?? double.infinity,
-            height: height ?? double.infinity,
-            fit: BoxFit.cover,
-          ),
+          _isNetworkImage(imagePath)
+              ? Image.network(
+                  imagePath,
+                  width: width ?? double.infinity,
+                  height: height ?? double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      width: width ?? double.infinity,
+                      height: height ?? double.infinity,
+                      color: Colors.grey[300],
+                      child: Icon(Icons.image_not_supported, color: Colors.grey[600]),
+                    );
+                  },
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      width: width ?? double.infinity,
+                      height: height ?? double.infinity,
+                      color: Colors.grey[200],
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      ),
+                    );
+                  },
+                )
+              : Image.asset(
+                  imagePath,
+                  width: width ?? double.infinity,
+                  height: height ?? double.infinity,
+                  fit: BoxFit.cover,
+                ),
           if (overlayColor != null && overlayOpacity > 0)
             Container(
               width: width ?? double.infinity,
@@ -40,4 +74,3 @@ class ImageCard extends StatelessWidget {
     );
   }
 }
-

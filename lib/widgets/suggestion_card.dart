@@ -16,6 +16,10 @@ class SuggestionCard extends StatelessWidget {
     this.bookmarked = false,
   });
 
+  bool _isNetworkImage(String path) {
+    return path.startsWith('http://') || path.startsWith('https://');
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -35,12 +39,36 @@ class SuggestionCard extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(5),
-                    child: Image.asset(
-                      imagePath,
-                      width: 118,
-                      height: 92,
-                      fit: BoxFit.cover,
-                    ),
+                    child: _isNetworkImage(imagePath)
+                        ? Image.network(
+                            imagePath,
+                            width: 118,
+                            height: 92,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                width: 118,
+                                height: 92,
+                                color: Colors.grey[300],
+                                child: Icon(Icons.image_not_supported, color: Colors.grey[600]),
+                              );
+                            },
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Container(
+                                width: 118,
+                                height: 92,
+                                color: Colors.grey[200],
+                                child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                              );
+                            },
+                          )
+                        : Image.asset(
+                            imagePath,
+                            width: 118,
+                            height: 92,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                   Positioned(
                     top: 8,
@@ -92,4 +120,3 @@ class SuggestionCard extends StatelessWidget {
     );
   }
 }
-

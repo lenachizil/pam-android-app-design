@@ -10,6 +10,10 @@ class CourseHeader extends StatelessWidget {
     this.onPlayPressed,
   });
 
+  bool _isNetworkImage(String path) {
+    return path.startsWith('http://') || path.startsWith('https://');
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -21,7 +25,9 @@ class CourseHeader extends StatelessWidget {
             width: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(imagePath),
+                image: _isNetworkImage(imagePath)
+                    ? NetworkImage(imagePath) as ImageProvider
+                    : AssetImage(imagePath) as ImageProvider,
                 fit: BoxFit.cover,
               ),
             ),

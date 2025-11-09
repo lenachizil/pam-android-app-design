@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import '../models/course.dart';
 import 'suggestion_card.dart';
 
 class HorizontalCourseList extends StatelessWidget {
-  final List<dynamic> courses;
+  final List<Course> courses;
   final double height;
   final Function(String courseId) onCourseTap;
 
@@ -27,8 +28,8 @@ class HorizontalCourseList extends StatelessWidget {
               onTap: () => onCourseTap(course.id),
               child: SuggestionCard(
                 title: course.title,
-                subtitle: course.subtitle,
-                imagePath: course.imagePath,
+                subtitle: course.institute,
+                imagePath: course.image,
                 rating: course.rating,
                 bookmarked: index == 0,
               ),
@@ -39,4 +40,3 @@ class HorizontalCourseList extends StatelessWidget {
     );
   }
 }
-
