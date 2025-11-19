@@ -8,6 +8,9 @@ import '../widgets/course_title_section.dart';
 import '../widgets/expandable_description.dart';
 import '../widgets/course_info_section.dart';
 import '../widgets/skill_chip.dart';
+import '../widgets/instructor_section.dart';
+import '../widgets/lessons_section.dart';
+import '../widgets/related_courses_section.dart';
 
 class CourseScreen extends StatelessWidget {
   const CourseScreen();
@@ -124,6 +127,24 @@ class CourseScreen extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: 24),
+                            if (course.instructor != null) ...[
+                              InstructorSection(
+                                instructor: course.instructor!,
+                              ),
+                              SizedBox(height: 24),
+                            ],
+                            if (course.lessons.isNotEmpty) ...[
+                              LessonsSection(
+                                lessons: course.lessons,
+                              ),
+                              SizedBox(height: 24),
+                            ],
+                            if (course.relatedCourses.isNotEmpty) ...[
+                              RelatedCoursesSection(
+                                relatedCourses: course.relatedCourses,
+                              ),
+                              SizedBox(height: 24),
+                            ],
                           ],
                         ),
                       ),

@@ -35,6 +35,58 @@ class Course extends Equatable {
   List<Object?> get props => [id, title, institute, image, rating, progress, price];
 }
 
+class Instructor extends Equatable {
+  final String name;
+  final String title;
+  final String bio;
+  final String image;
+
+  const Instructor({
+    required this.name,
+    required this.title,
+    required this.bio,
+    required this.image,
+  });
+
+  factory Instructor.fromJson(Map<String, dynamic> json) {
+    return Instructor(
+      name: json['name'] as String,
+      title: json['title'] as String,
+      bio: json['bio'] as String,
+      image: json['image'] as String,
+    );
+  }
+
+  @override
+  List<Object?> get props => [name, title, bio, image];
+}
+
+class Lesson extends Equatable {
+  final String id;
+  final String title;
+  final String duration;
+  final bool isPreview;
+
+  const Lesson({
+    required this.id,
+    required this.title,
+    required this.duration,
+    required this.isPreview,
+  });
+
+  factory Lesson.fromJson(Map<String, dynamic> json) {
+    return Lesson(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      duration: json['duration'] as String,
+      isPreview: json['isPreview'] as bool,
+    );
+  }
+
+  @override
+  List<Object?> get props => [id, title, duration, isPreview];
+}
+
 class CourseDetails extends Equatable {
   final String id;
   final String title;
@@ -49,6 +101,9 @@ class CourseDetails extends Equatable {
   final String thumbnail;
   final String description;
   final List<String> skills;
+  final Instructor? instructor;
+  final List<Lesson> lessons;
+  final List<Course> relatedCourses;
 
   const CourseDetails({
     required this.id,
@@ -64,6 +119,9 @@ class CourseDetails extends Equatable {
     required this.thumbnail,
     required this.description,
     required this.skills,
+    this.instructor,
+    this.lessons = const [],
+    this.relatedCourses = const [],
   });
 
   factory CourseDetails.fromJson(Map<String, dynamic> json) {
@@ -81,6 +139,19 @@ class CourseDetails extends Equatable {
       thumbnail: json['thumbnail'] as String,
       description: json['description'] as String,
       skills: (json['skills'] as List<dynamic>).map((e) => e as String).toList(),
+      instructor: json['instructor'] != null
+          ? Instructor.fromJson(json['instructor'] as Map<String, dynamic>)
+          : null,
+      lessons: json['lessons'] != null
+          ? (json['lessons'] as List<dynamic>)
+              .map((e) => Lesson.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : [],
+      relatedCourses: json['relatedCourses'] != null
+          ? (json['relatedCourses'] as List<dynamic>)
+              .map((e) => Course.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : [],
     );
   }
 
@@ -99,6 +170,9 @@ class CourseDetails extends Equatable {
         thumbnail,
         description,
         skills,
+        instructor,
+        lessons,
+        relatedCourses,
       ];
 }
 
